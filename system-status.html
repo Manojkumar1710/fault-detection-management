@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Status - KSEBL System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>KSEBL</h1>
+                <p>Control Center</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Dashboard.html">Dashboard</a>
+                <a href="live-monitor.html">Live Monitor</a>
+                <a href="analytics.html">Analytics</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1>System Health Details</h1>
+                    <p class="header-meta">Live status of all system components and services.</p>
+                </div>
+            </header>
+
+            <section class="status-details-grid">
+                <div class="summary-card status-operational">
+                    <p class="card-header">API Server</p>
+                    <h2 class="card-value" id="api-status">--</h2>
+                </div>
+                <div class="summary-card status-operational">
+                    <p class="card-header">Database Connection</p>
+                    <h2 class="card-value" id="db-status">--</h2>
+                </div>
+                <div class="summary-card status-info">
+                    <p class="card-header">Simulation Engine</p>
+                    <h2 class="card-value" id="sim-status">--</h2>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="system-status.js"></script>
+</body>
+</html>

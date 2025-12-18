@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSEBL Control Center - Real-time Monitoring</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="https://tse4.mm.bing.net/th/id/OIP.Om6bjU42yQhG4YAzipU_XQHaEK?pid=Api&P=0&h=180">
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="brand-logo">
+               
+    <!-- SVG is now replaced with this image tag -->
+    <img src="https://tse3.mm.bing.net/th/id/OIP.0hTS6VfFoLViJFFSMlqMzQAAAA?pid=Api&P=0&h=180" alt="KSEBL Logo" width="32" height="32">
+</div>
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">KSEBL Control Center</span>
+                <span class="brand-subtitle">Real-time Monitoring</span>
+            </div>
+        </div>
+        
+        <div class="navbar-links">
+            <a href="Dashboard.html" class="nav-link active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="live-monitor.html" class="nav-link">
+                <span class="nav-icon">⚡</span>
+                <span>Live Monitor</span>
+            </a>
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">📈</span>
+                <span>Analytics</span>
+            </a>
+            <a href="settings.html" class="nav-link">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="navbar-user">
+            <div class="user-info">
+                <div class="user-details">
+                    <span class="user-name" id="current-user-name">Administrator</span>
+                    <span class="user-role" id="current-user-role">System Admin</span>
+                </div>
+                <div class="user-avatar" id="user-avatar">🧑🏽‍💼</div>
+            </div>
+            <div class="system-time" id="system-time">00:00:00</div>
+            <a href="http://127.0.0.1:5501/Frontend/index.html" id="logout-button" class="btn btn-logout" title="Logout (Alt+L)">
+                <span>🚪</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="dashboard-summary" id="dashboard-section">
+            <div class="section-header">
+                <h1>SYSTEM OVERVIEW</h1>
+                <div class="header-controls">
+                    
+                    <span class="last-updated">Last Updated: <span id="last-refresh">--:----</span></span>
+                    <button class="btn btn-refresh" id="manual-refresh" title="Manual Refresh (F5)">
+                        <span class="refresh-icon">🔄</span>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-card card-primary">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-content">
+                        <h3>System Status</h3>
+                        <p class="card-value" id="summary-status-text">OPERATIONAL</p>
+                        <div class="card-trend">
+                            <span class="trend-text" id="uptime-text">Uptime : 24hours 15minutes</span>
+                        </div>
+                    </div>
+                    <div class="status-indicator status-green" id="summary-status-indicator"></div>
+                </div>
+
+                <div class="summary-card card-warning">
+                    <div class="card-icon">🚨</div>
+                    <div class="card-content">
+                        <h3>Active Alerts</h3>
+                        <p class="card-value" id="summary-alerts">0</p>
+                        <div class="card-trend">
+                            <span class="trend-text">Last 24hours: <span id="alerts-24h">3</span></span>
+                        </div>
+                    </div>
+                    <div class="status-indicator status-green" id="summary-alerts-indicator"></div>
+                </div>
+
+                <div class="summary-card card-info">
+                    <div class="card-icon">🔌</div>
+                    <div class="card-content">
+                        <h3>Lines Monitored</h3>
+                        <p class="card-value">Total: 4</p>
+                        <div class="card-trend">
+                            <span class="trend-text">Online: <span id="lines-online">4</span>/4</span>
+                        </div>
+                    </div>
+                    <div class="status-indicator status-green"></div>
+                </div>
+
+                <div class="summary-card card-success">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-content">
+                        <h3>System Load</h3>
+                        <p class="card-value"><span id="total-load">10.5</span> kW</p>
+                        <div class="card-trend">
+                            <span class="trend-text">Efficiency: <span id="efficiency">96.3%</span></span>
+                        </div>
+                    </div>
+                    <div class="status-indicator status-green"></div>
+                </div>
+            </div>
+
+            <div class="network-overview">
+                <h2>Network Topology</h2>
+                <div class="topology-container">
+                    <div class="substation main-substation">
+                        <div class="substation-icon">🏭</div>
+                        <span>MAIN SUBSTATION</span>
+                        <div class="connection-status online">--ONLINE--</div>
+                    </div>
+                    <div class="transmission-lines">
+                        <div class="line-connection" data-line="1">
+                            <div class="line-indicator" id="topo-line-1"></div>
+                        </div>
+                        <div class="line-connection" data-line="2">
+                            <div class="line-indicator" id="topo-line-2"></div>
+                        </div>
+                        <div class="line-connection" data-line="3">
+                            <div class="line-indicator" id="topo-line-3"></div>
+                        </div>
+                        <div class="line-connection" data-line="4">
+                            <div class="line-indicator" id="topo-line-4"></div>
+                        </div>
+                    </div>
+                    <div class="distribution-points">
+                        <div class="distribution-point">
+                            <span>
+                              <a href="https://trivandrum.nic.in/en/public-utility-category/electricity/" class="zone-link">Zone A</a>
+                            </span>
+                            <div class="zone-status" id="zone-a-status">✓</div>
+                        </div>
+                        <div class="distribution-point">
+                            <span>
+                                <a href="https://www.transformerindia.co.in/ac-power-supply-in-kollam.html" class="zone-link" >Zone B</a>
+                            </span>
+                            <div class="zone-status" id="zone-b-status">✓</div>
+                        </div>
+                        <div class="distribution-point">
+                            <span>
+                                <a href="https://www.power-technology.com/marketdata/edamon-kochi-line-india/?cf-view" class="zone-link">Zone C</a>
+                            </span>
+                            <div class="zone-status" id="zone-c-status">✓</div>
+                        </div>
+                        <div class="distribution-point">
+                            <span>
+                                <a href="https://palakkad.nic.in/en/public-utility-category/electricity/" class="zone-link">Zone D</a>
+                            </span>
+                            <div class="zone-status" id="zone-d-status">✓</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section id="line-monitoring-section">
+            <div class="section-header">
+                <h2>Real Time Line Monitoring</h2>
+                <div class="monitoring-stats">
+                    <span class="stat-item">Scan Rate: <strong>1.5s</strong></span>
+                    <span class="stat-item">Data Points: <strong>16</strong></span>
+                    <span class="stat-item">Precision: <strong>±0.1%</strong></span>
+                </div>
+            </div>
+            
+            <div class="control-panel">
+                <div class="emergency-controls">
+                    <button id="emergency-shutdown" class="btn btn-danger emergency-btn" title="Emergency Shutdown (Ctrl+Shift+E)">
+                        <span class="btn-icon">🚨</span>
+                        <div class="btn-content">
+                            <span class="btn-title">EMERGENCY STOP</span>
+                            <span class="btn-subtitle">Ctrl+Shift+E</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <div class="system-controls">
+                    <button id="system-reset" class="btn btn-warning" title="System Reset (Ctrl+Shift+R)">
+                        <span class="btn-icon">🔄</span>
+                        <span>SYSTEM RESET</span>
+                    </button>
+                    <button id="run-diagnostics" class="btn btn-info" title="Run Diagnostics (Ctrl+D)">
+                        <span class="btn-icon">🔧</span>
+                        <span>Diagnostics</span>
+                    </button>
+                    <button id="export-data" class="btn btn-success" title="Export Data (Ctrl+E)">
+                        <span class="btn-icon">📤</span>
+                        <span>EXPORT</span>
+                    </button>
+                </div>
+            </div>
+        
+            <div class="dashboard-grid">
+                <div class="line-container">
+                    <div class="line-card" id="line-1" data-line="1">
+                        <div class="card-header">
+                            <div class="line-info">
+                                <h2>Feeder Line-01</h2>
+                                <span class="line-location">Trivandrum North</span>
+                            </div>
+                            <div class="line-controls">
+                                <div class="status-indicator status-green" id="l1-status"></div>
+                                <button class="control-btn" title="Line Settings" data-line="1">⚙️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-item voltage">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Voltage</span>
+                                    <span class="metric-value" id="l1-voltage">---</span>
+                                    <span class="metric-unit">V</span>
+                                </div>
+                                <div class="metric-trend" id="l1-voltage-trend">━</div>
+                            </div>
+
+                            <div class="metric-item current">
+                                <div class="metric-icon">🔌</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Current</span>
+                                    <span class="metric-value" id="l1-current">---</span>
+                                    <span class="metric-unit">A</span>
+                                </div>
+                                <div class="metric-trend" id="l1-current-trend">━</div>
+                            </div>
+
+                            <div class="metric-item temperature">
+                                <div class="metric-icon">🌡️</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Temperature</span>
+                                    <span class="metric-value" id="l1-temp">---</span>
+                                    <span class="metric-unit">°C</span>
+                                </div>
+                                <div class="metric-trend" id="l1-temp-trend">━</div>
+                            </div>
+
+                            <div class="metric-item power">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Power</span>
+                                    <span class="metric-value" id="l1-power">---</span>
+                                    <span class="metric-unit">W</span>
+                                </div>
+                                <div class="metric-trend" id="l1-power-trend">━</div>
+                            </div>
+                        </div>
+
+                        <div class="line-footer">
+                            <div class="connection-quality">
+                                <span>Signal: </span>
+                                <div class="signal-bars" id="l1-signal">
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-manual" data-line="1">Manual Control</button>
+                        </div>
+                    </div>
+
+                    <div class="line-card" id="line-2" data-line="2">
+                        <div class="card-header">
+                            <div class="line-info">
+                                <h2>Feeder Line-02</h2>
+                                <span class="line-location">Kollam Industrial</span>
+                            </div>
+                            <div class="line-controls">
+                                <div class="status-indicator status-green" id="l2-status"></div>
+                                <button class="control-btn" title="Line Settings" data-line="2">⚙️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-item voltage">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Voltage</span>
+                                    <span class="metric-value" id="l2-voltage">---</span>
+                                    <span class="metric-unit">V</span>
+                                </div>
+                                <div class="metric-trend" id="l2-voltage-trend">━</div>
+                            </div>
+
+                            <div class="metric-item current">
+                                <div class="metric-icon">🔌</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Current</span>
+                                    <span class="metric-value" id="l2-current">---</span>
+                                    <span class="metric-unit">A</span>
+                                </div>
+                                <div class="metric-trend" id="l2-current-trend">━</div>
+                            </div>
+
+                            <div class="metric-item temperature">
+                                <div class="metric-icon">🌡️</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Temperature</span>
+                                    <span class="metric-value" id="l2-temp">---</span>
+                                    <span class="metric-unit">°C</span>
+                                </div>
+                                <div class="metric-trend" id="l2-temp-trend">━</div>
+                            </div>
+
+                            <div class="metric-item power">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Power</span>
+                                    <span class="metric-value" id="l2-power">---</span>
+                                    <span class="metric-unit">W</span>
+                                </div>
+                                <div class="metric-trend" id="l2-power-trend">━</div>
+                            </div>
+                        </div>
+
+                        <div class="line-footer">
+                            <div class="connection-quality">
+                                <span>Signal: </span>
+                                <div class="signal-bars" id="l2-signal">
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-manual" data-line="2">Manual Control</button>
+                        </div>
+                    </div>
+
+                    <div class="line-card" id="line-3" data-line="3">
+                        <div class="card-header">
+                            <div class="line-info">
+                                <h2>Feeder Line-03</h2>
+                                <span class="line-location">Kochi Metro</span>
+                            </div>
+                            <div class="line-controls">
+                                <div class="status-indicator status-green" id="l3-status"></div>
+                                <button class="control-btn" title="Line Settings" data-line="3">⚙️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-item voltage">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Voltage</span>
+                                    <span class="metric-value" id="l3-voltage">---</span>
+                                    <span class="metric-unit">V</span>
+                                </div>
+                                <div class="metric-trend" id="l3-voltage-trend">━</div>
+                            </div>
+
+                            <div class="metric-item current">
+                                <div class="metric-icon">🔌</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Current</span>
+                                    <span class="metric-value" id="l3-current">---</span>
+                                    <span class="metric-unit">A</span>
+                                </div>
+                                <div class="metric-trend" id="l3-current-trend">━</div>
+                            </div>
+
+                            <div class="metric-item temperature">
+                                <div class="metric-icon">🌡️</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Temperature</span>
+                                    <span class="metric-value" id="l3-temp">---</span>
+                                    <span class="metric-unit">°C</span>
+                                </div>
+                                <div class="metric-trend" id="l3-temp-trend">━</div>
+                            </div>
+
+                            <div class="metric-item power">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Power</span>
+                                    <span class="metric-value" id="l3-power">---</span>
+                                    <span class="metric-unit">W</span>
+                                </div>
+                                <div class="metric-trend" id="l3-power-trend">━</div>
+                            </div>
+                        </div>
+
+                        <div class="line-footer">
+                            <div class="connection-quality">
+                                <span>Signal: </span>
+                                <div class="signal-bars" id="l3-signal">
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-manual" data-line="3">Manual Control</button>
+                        </div>
+                    </div>
+                    
+                    <div class="line-card" id="line-4" data-line="4">
+                        <div class="card-header">
+                            <div class="line-info">
+                                <h2>Feeder Line 04</h2>
+                                <span class="line-location">Kollam Industrial</span>
+                            </div>
+                            <div class="line-controls">
+                                <div class="status-indicator status-green" id="l4-status"></div>
+                                <button class="control-btn" title="Line Settings" data-line="4">⚙️</button>
+                            </div>
+                        </div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-item voltage">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Voltage</span>
+                                    <span class="metric-value" id="l4-voltage">---</span>
+                                    <span class="metric-unit">V</span>
+                                </div>
+                                <div class="metric-trend" id="l4-voltage-trend">━</div>
+                            </div>
+
+                            <div class="metric-item current">
+                                <div class="metric-icon">🔌</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Current</span>
+                                    <span class="metric-value" id="l4-current">---</span>
+                                    <span class="metric-unit">A</span>
+                                </div>
+                                <div class="metric-trend" id="l4-current-trend">━</div>
+                            </div>
+
+                            <div class="metric-item temperature">
+                                <div class="metric-icon">🌡️</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Temperature</span>
+                                    <span class="metric-value" id="l4-temp">---</span>
+                                    <span class="metric-unit">°C</span>
+                                </div>
+                                <div class="metric-trend" id="l4-temp-trend">━</div>
+                            </div>
+
+                            <div class="metric-item power">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-data">
+                                    <span class="metric-label">Power</span>
+                                    <span class="metric-value" id="l4-power">---</span>
+                                    <span class="metric-unit">W</span>
+                                </div>
+                                <div class="metric-trend" id="l4-power-trend">━</div>
+                            </div>
+                        </div>
+
+                        <div class="line-footer">
+                            <div class="connection-quality">
+                                <span>Signal: </span>
+                                <div class="signal-bars" id="l4-signal">
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                    <div class="bar active"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-manual" data-line="4">Manual Control</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="manual-control-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Manual Control: Feeder Line 01</h2>
+                <button id="close-modal-btn" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                    Enter new metric values for this line. The automatic simulation will be paused until you return it to auto mode.
+                </p>
+                <div class="setting-item">
+                    <label for="manual-voltage">Voltage (V)</label>
+                    <input type="number" id="manual-voltage" placeholder="e.g., 240.5" step="0.1">
+                </div>
+                <div class="setting-item">
+                    <label for="manual-current">Current (A)</label>
+                    <input type="number" id="manual-current" placeholder="e.g., 15.2" step="0.1">
+                </div>
+                <div class="setting-item">
+                    <label for="manual-temp">Temperature (°C)</label>
+                    <input type="number" id="manual-temp" placeholder="e.g., 45.0" step="0.1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-manual-btn" class="btn btn-secondary">Cancel</button>
+                <button id="save-manual-btn" class="btn btn-primary">Save Values</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

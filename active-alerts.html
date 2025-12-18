@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Alerts - KSEBL System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="brand-logo">
+                <img src="https://tse3.mm.bing.net/th/id/OIP.0hTS6VfFoLViJFFSMlqMzQAAAA?pid=Api&P=0&h=180" alt="KSEBL Logo" width="32" height="32">
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">KSEBL Control Center</span>
+                <span class="brand-subtitle">Alert Management</span>
+            </div>
+        </div>
+        <div class="navbar-links">
+            <a href="Dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+            <a href="live-monitor.html" class="nav-link"><span class="nav-icon">⚡</span><span>Live Monitor</span></a>
+            <a href="active-alerts.html" class="nav-link active"><span class="nav-icon">🚨</span><span>Active Alerts</span></a>
+            <a href="analytics.html" class="nav-link"><span class="nav-icon">📈</span><span>Analytics</span></a>
+            <a href="settings.html" class="nav-link"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+        </div>
+        <div class="navbar-user">
+            <div class="system-time" id="system-time">00:00:00</div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <header class="main-header">
+            <div>
+                <h1>Active Alert Management</h1>
+                <p class="header-meta">Monitor and manage all system alerts and threshold violations</p>
+            </div>
+            <div class="header-controls">
+                <div class="alert-summary">
+                    <span class="alert-count critical" id="critical-count">0</span>
+                    <span class="alert-count warning" id="warning-count">0</span>
+                    <span class="alert-count info" id="info-count">0</span>
+                </div>
+                <button class="btn btn-refresh" id="refresh-alerts">
+                    <span class="refresh-icon">🔄</span> Refresh
+                </button>
+            </div>
+        </header>
+
+        <div class="alerts-layout">
+            <!-- Left Side: Alert Types and Thresholds -->
+            <aside class="alert-types-panel">
+                <div class="panel-header">
+                    <h2>Alert Configuration</h2>
+                    <p>Current threshold settings and alert types</p>
+                </div>
+
+                <div class="alert-type-section">
+                    <h3>🔥 Critical Alerts</h3>
+                    <div class="threshold-list">
+                        <div class="threshold-item critical">
+                            <div class="threshold-info">
+                                <span class="threshold-name">High Voltage</span>
+                                <span class="threshold-desc">Voltage exceeds safe operating limits</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value" id="voltage-threshold">12000V</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="threshold-item critical">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Overcurrent</span>
+                                <span class="threshold-desc">Current load beyond capacity</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value" id="current-threshold">300A</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item critical">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Overheating</span>
+                                <span class="threshold-desc">Temperature above critical level</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value" id="temperature-threshold">90°C</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item critical">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Power Overload</span>
+                                <span class="threshold-desc">Power consumption exceeds limit</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value" id="power-threshold">50MW</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-type-section">
+                    <h3>⚠️ Warning Alerts</h3>
+                    <div class="threshold-list">
+                        <div class="threshold-item warning">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Voltage Fluctuation</span>
+                                <span class="threshold-desc">Voltage variations detected</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value">±5% nominal</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item warning">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Load Imbalance</span>
+                                <span class="threshold-desc">Uneven distribution across phases</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value">>15% diff</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item warning">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Communication Loss</span>
+                                <span class="threshold-desc">Intermittent data transmission</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value">>30s delay</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-type-section">
+                    <h3>ℹ️ Information Alerts</h3>
+                    <div class="threshold-list">
+                        <div class="threshold-item info">
+                            <div class="threshold-info">
+                                <span class="threshold-name">Maintenance Due</span>
+                                <span class="threshold-desc">Scheduled maintenance approaching</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value">7 days</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+
+                        <div class="threshold-item info">
+                            <div class="threshold-info">
+                                <span class="threshold-name">System Status</span>
+                                <span class="threshold-desc">Normal operational updates</span>
+                            </div>
+                            <div class="threshold-value">
+                                <span class="value">Active</span>
+                                <span class="status-dot active"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Side: Active Alerts -->
+            <section class="active-alerts-panel">
+                <div class="panel-header">
+                    <h2>Current Active Alerts</h2>
+                    <p>Real-time alerts requiring immediate attention</p>
+                    <div class="alert-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="critical">Critical</button>
+                        <button class="filter-btn" data-filter="warning">Warning</button>
+                        <button class="filter-btn" data-filter="info">Info</button>
+                    </div>
+                </div>
+
+                <div class="alerts-container">
+                    <div class="alerts-grid" id="alerts-grid">
+                        <!-- Loading placeholder -->
+                        <div class="loading-placeholder">
+                            <div class="loading-spinner"></div>
+                            <p>Loading active alerts...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Statistics -->
+                <div class="alert-statistics">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Alerts Today</span>
+                        <span class="stat-value" id="daily-alerts">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg Response Time</span>
+                        <span class="stat-value" id="avg-response">--</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">System Uptime</span>
+                        <span class="stat-value" id="system-uptime">99.8%</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="active-alerts.js"></script>
+</body>
+</html>

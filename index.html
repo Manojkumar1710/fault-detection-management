@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSEBL Fault Detection System - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM0OThkYiIvPgo8cGF0aCBkPSJNOCAxNmw0IDRMMjQgOCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+">
+</head>
+<body class="login-body">
+    <div class="login-background">
+        <div class="circuit-pattern"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="system-logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 64 64" width="48" height="48">
+                    <circle cx="32" cy="32" r="28" fill="none" stroke="#3498db" stroke-width="3"/>
+                    <path d="M16 32l8 8 16-16" stroke="#3498db" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <circle cx="32" cy="16" r="3" fill="#e74c3c"/>
+                    <circle cx="48" cy="32" r="3" fill="#2ecc71"/>
+                    <circle cx="32" cy="48" r="3" fill="#f39c12"/>
+                    <circle cx="16" cy="32" r="3" fill="#9b59b6"/>
+                </svg>
+            </div>
+            <h1>KSEBL</h1>
+            <p class="system-subtitle">Fault Detection & Monitoring System</p>
+        </div>
+        
+        <form id="login-form">
+            <h2 class="login-title">Operator Login</h2>
+            <p class="form-description">Secure access to LT Line monitoring dashboard</p>
+            
+            <div class="input-group">
+                <label for="username">
+                    <span class="label-icon">👤</span>
+                    Username
+                </label>
+                <input type="text" id="username" name="username" placeholder="Enter your username or email" required autocomplete="username">
+            </div>
+            
+            <div class="input-group">
+                <label for="password">
+                    <span class="label-icon">🔒</span>
+                    Password
+                </label>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                    <button type="button" class="password-toggle" id="password-toggle" aria-label="Toggle password visibility">👁️</button>
+                </div>
+            </div>
+
+            <div class="login-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="remember-me" name="remember-me">
+                    <span class="checkmark"></span>
+                    Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-login">
+                <span class="btn-text">Sign In</span>
+                <span class="btn-loading">🔄 Authenticating...</span>
+            </button>
+            
+            <div class="login-status">
+                <p id="login-error" class="error-message hidden"></p>
+            </div>
+
+            <div class="demo-credentials">
+                <h4>Demo Accounts:</h4>
+                <div class="demo-account" data-username="admin@ksebl.com" data-password="admin123">
+                    <strong>Admin:</strong> admin@ksebl.com
+                </div>
+                <div class="demo-account" data-username="operator@ksebl.com" data-password="op2024">
+                    <strong>Operator:</strong> operator@ksebl.com
+                </div>
+            </div>
+        </form>
+
+        <form id="signup-form" class="hidden">
+            <h2>New Operator Registration</h2>
+            <p class="form-description">Register for system access (requires approval)</p>
+            
+            <div class="input-group-row">
+                <div class="input-group">
+                    <label for="signup-firstname">
+                        <span class="label-icon">👤</span>
+                        First Name
+                    </label>
+                    <input type="text" id="signup-firstname" name="firstname" placeholder="First name" required>
+                </div>
+                <div class="input-group">
+                    <label for="signup-lastname">
+                        <span class="label-icon">👤</span>
+                        Last Name
+                    </label>
+                    <input type="text" id="signup-lastname" name="lastname" placeholder="Last name" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="signup-email">
+                    <span class="label-icon">📧</span>
+                    Official Email
+                </label>
+                <input type="email" id="signup-email" name="email" placeholder="name@ksebl.gov.in" required>
+            </div>
+
+            <div class="input-group">
+                <label for="signup-password">
+                    <span class="label-icon">🔒</span>
+                    Create Password
+                </label>
+                <div class="password-container">
+                    <input type="password" id="signup-password" name="password" placeholder="Minimum 6 characters" required minlength="6">
+                    <button type="button" class="password-toggle" data-target="signup-password" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                <div class="password-strength">
+                    <div class="strength-bar" id="signup-strength-bar"></div>
+                    <span class="strength-text" id="signup-strength-text">Enter a password</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="signup-confirm-password">
+                    <span class="label-icon">🔒</span>
+                    Confirm Password
+                </label>
+                <div class="password-container">
+                    <input type="password" id="signup-confirm-password" name="confirm-password" placeholder="Re-enter password" required>
+                    <button type="button" class="password-toggle" data-target="signup-confirm-password" aria-label="Toggle password visibility">👁️</button>
+                </div>
+            </div>
+
+            <div class="terms-container">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="accept-terms" required>
+                    <span class="checkmark"></span>
+                    I agree to the <a href="#" class="toggle-link">Terms of Service</a> and <a href="#" class="toggle-link">Privacy Policy</a>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-login">
+                <span class="btn-text">Register Account</span>
+                <span class="btn-loading">🔄 Processing...</span>
+            </button>
+            
+            <div class="login-status">
+                <p id="signup-error" class="error-message hidden"></p>
+            </div>
+        </form>
+
+        <div class="form-toggle-links">
+            <p id="toggle-to-signup">
+                Need access? <a href="#" class="toggle-link">Request Registration</a>
+            </p>
+            <p id="toggle-to-login" class="hidden">
+                Already registered? <a href="#" class="toggle-link">Back to Login</a>
+            </p>
+        </div>
+
+        <div class="system-info">
+            <div class="info-row">
+                <span>System Status:</span>
+                <span class="status-online">Online</span>
+            </div>
+            <div class="info-row">
+                <span>Version:</span>
+                <span>2.1.0</span>
+            </div>
+            <div class="info-row">
+                <span>Security Level:</span>
+                <span class="high">High</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordToggles = document.querySelectorAll('.password-toggle');
+            
+            passwordToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target') || this.getAttribute('id').replace('-toggle', '');
+                    const passwordInput = document.getElementById(targetId);
+                    
+                    if (passwordInput) {
+                        const isPassword = passwordInput.type === 'password';
+                        passwordInput.type = isPassword ? 'text' : 'password';
+                        this.textContent = isPassword ? '🙈' : '👁️';
+                    }
+                });
+            });
+
+            // Demo account click handlers
+            const demoAccounts = document.querySelectorAll('.demo-account');
+            demoAccounts.forEach(account => {
+                account.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    const password = this.getAttribute('data-password');
+                    
+                    document.getElementById('username').value = username;
+                    document.getElementById('password').value = password;
+                });
+            });
+
+            // Form toggle functionality
+            const toggleToSignup = document.getElementById('toggle-to-signup');
+            const toggleToLogin = document.getElementById('toggle-to-login');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+
+            toggleToSignup.querySelector('.toggle-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                toggleToSignup.classList.add('hidden');
+                toggleToLogin.classList.remove('hidden');
+            });
+
+            toggleToLogin.querySelector('.toggle-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                toggleToLogin.classList.add('hidden');
+                toggleToSignup.classList.remove('hidden');
+            });
+
+            // Password strength checker for signup
+            const signupPassword = document.getElementById('signup-password');
+            const strengthBar = document.getElementById('signup-strength-bar');
+            const strengthText = document.getElementById('signup-strength-text');
+
+            if (signupPassword && strengthBar && strengthText) {
+                signupPassword.addEventListener('input', function() {
+                    const password = this.value;
+                    const strength = calculatePasswordStrength(password);
+                    
+                    strengthBar.style.setProperty('--strength', strength.percentage + '%');
+                    strengthText.textContent = strength.text;
+                    strengthText.className = 'strength-text ' + strength.class;
+                });
+            }
+
+            function calculatePasswordStrength(password) {
+                let score = 0;
+                let text = 'Very Weak';
+                let className = 'weak';
+
+                if (password.length >= 6) score += 20;
+                if (password.length >= 8) score += 20;
+                if (/[a-z]/.test(password)) score += 20;
+                if (/[A-Z]/.test(password)) score += 20;
+                if (/[0-9]/.test(password)) score += 10;
+                if (/[^A-Za-z0-9]/.test(password)) score += 10;
+
+                if (score < 30) {
+                    text = 'Very Weak';
+                    className = 'weak';
+                } else if (score < 50) {
+                    text = 'Weak';
+                    className = 'weak';
+                } else if (score < 70) {
+                    text = 'Fair';
+                    className = 'medium';
+                } else if (score < 90) {
+                    text = 'Good';
+                    className = 'strong';
+                } else {
+                    text = 'Strong';
+                    className = 'strong';
+                }
+
+                return {
+                    percentage: score,
+                    text: text,
+                    class: className
+                };
+            }
+
+            // Form submission handlers
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const errorElement = document.getElementById('login-error');
+                const submitButton = this.querySelector('.btn-login');
+                
+                // Show loading state
+                submitButton.classList.add('loading');
+                errorElement.classList.add('hidden');
+                
+                // Simulate authentication delay
+                setTimeout(() => {
+                    // Demo authentication logic
+                    const validCredentials = [
+                        { username: 'admin@ksebl.com', password: 'admin123', role: 'admin' },
+                        { username: 'operator@ksebl.com', password: 'op2024', role: 'operator' }
+                    ];
+                    
+                    const user = validCredentials.find(cred => 
+                        cred.username === username && cred.password === password
+                    );
+                    
+                    if (user) {
+                        // Store user info (in real app, this would be more secure)
+                        localStorage.setItem('currentUser', JSON.stringify(user));
+                        
+                        // Redirect to dashboard
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        // Show error
+                        errorElement.textContent = 'Invalid username or password. Please try again.';
+                        errorElement.classList.remove('hidden');
+                        submitButton.classList.remove('loading');
+                    }
+                }, 1500);
+            });
+
+            document.getElementById('signup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm-password').value;
+                const errorElement = document.getElementById('signup-error');
+                const submitButton = this.querySelector('.btn-login');
+                
+                // Clear previous errors
+                errorElement.classList.add('hidden');
+                
+                // Password validation
+                if (password !== confirmPassword) {
+                    errorElement.textContent = 'Passwords do not match.';
+                    errorElement.classList.remove('hidden');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    errorElement.textContent = 'Password must be at least 6 characters long.';
+                    errorElement.classList.remove('hidden');
+                    return;
+                }
+                
+                // Show loading state
+                submitButton.classList.add('loading');
+                
+                // Simulate registration process
+                setTimeout(() => {
+                    // Show success message and redirect to login
+                    alert('Registration successful! Your account is pending approval. You will be notified via email once approved.');
+                    
+                    // Switch back to login form
+                    document.getElementById('signup-form').classList.add('hidden');
+                    document.getElementById('login-form').classList.remove('hidden');
+                    document.getElementById('toggle-to-login').classList.add('hidden');
+                    document.getElementById('toggle-to-signup').classList.remove('hidden');
+                    
+                    // Reset form
+                    this.reset();
+                    submitButton.classList.remove('loading');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

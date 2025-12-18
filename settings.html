@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - KSEBL System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>KSEBL</h1>
+                <p>Control Center</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="Dashboard.html">📊 Dashboard</a> 
+                <a href="live-monitor.html">⚡ Live Monitor</a>
+                <a href="analytics.html">📈 Analytics</a>
+                <a href="settings.html" class="active">⚙️ Settings</a>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1>User Settings</h1>
+                    <p class="header-meta">Manage your profile and password</p>
+                </div>
+                <div class="system-time" id="system-time">00:00:00</div>
+            </header>
+            
+            <section class="settings-section">
+                <div class="settings-form-container">
+                    <h2>Profile Information</h2>
+                    <form id="profile-form">
+                        <div class="input-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" value="System" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" value="Administrator" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="admin@ksebl.com" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="role">Role</label>
+                            <input type="text" id="role" value="System Administrator" disabled>
+                        </div>
+                        <div class="input-group">
+                            <label for="department">Department</label>
+                            <input type="text" id="department" value="Operations Control" disabled>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="settings-form-container">
+                    <h2>Change Password</h2>
+                    <form id="password-form">
+                        <div class="input-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" required>
+                            <small class="input-help">Password must be at least 8 characters long</small>
+                        </div>
+                        <div class="input-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-login">Update Password</button>
+                        <p id="settings-message" class="message"></p>
+                    </form>
+                </div>
+                
+                <div class="settings-form-container">
+                    <h2>System Preferences</h2>
+                    <form id="preferences-form">
+                        <div class="input-group">
+                            <label for="refresh-interval">Data Refresh Interval (seconds)</label>
+                            <select id="refresh-interval">
+                                <option value="3">3 seconds</option>
+                                <option value="5" selected>5 seconds</option>
+                                <option value="10">10 seconds</option>
+                                <option value="30">30 seconds</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="alert-sound">Alert Sound</label>
+                            <select id="alert-sound">
+                                <option value="enabled" selected>Enabled</option>
+                                <option value="disabled">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="theme">Theme</label>
+                            <select id="theme">
+                                <option value="dark" selected>Dark Theme</option>
+                                <option value="light">Light Theme</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-info">Save Preferences</button>
+                        <p id="preferences-message" class="message"></p>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="settings.js"></script>
+</body>
+</html>
